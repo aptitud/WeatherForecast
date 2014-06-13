@@ -2,7 +2,7 @@ var http = require("http");
 var request = require('request');
 var express = require('express');
 var app = express();
-var server = http.createServer(app)
+//var server = http.createServer(app)
 
 //app.configure(function () {
 //    app.use(express.json());
@@ -31,7 +31,7 @@ app.get('/forecast/lat/:lat/lon/:lon', function (req, res) {
     });
 });
 
-server.listen(8080);
+app.listen(8080);
 
 function getWeatherForecast(lat, lon, callback) {
     var options = {
