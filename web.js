@@ -1,8 +1,20 @@
 var http = require("http");
 var request = require('request');
 var express = require('express');
-
 var app = express();
+var server = http.createServer(app)
+
+//app.configure(function () {
+//    app.use(express.json());
+//    app.use(express.urlencoded());
+//});
+
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, POST", "PUT");
+    next();
+});
 
 app.get('/', function (req, res) {
     res.send('Yes, Weather Forecast (Anders edition) is up and running');
@@ -19,7 +31,7 @@ app.get('/forecast/lat/:lat/lon/:lon', function (req, res) {
     });
 });
 
-app.listen(8888);
+server.listen(8080);
 
 function getWeatherForecast(lat, lon, callback) {
     var options = {

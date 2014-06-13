@@ -1,6 +1,6 @@
 {
     "name": "WeatherForecast",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Tweeting sea weather forecasts",
     "main": "web.js",
     "scripts": {
