@@ -4,6 +4,7 @@
     "description": "Tweeting sea weather forecasts",
     "main": "web.js",
     "scripts": {
+        "start": "web.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "engines": {
