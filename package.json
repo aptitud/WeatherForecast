@@ -19,6 +19,7 @@
     "url": "https://github.com/aptitud/WeatherForecast/issues"
   },
   "dependencies": {
+    "express": "^4.4.3",
     "request": "^2.36.0"
   }
 }
