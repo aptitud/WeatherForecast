@@ -1,27 +1,28 @@
 {
-    "name": "WeatherForecast",
-    "version": "1.0.0",
-    "description": "Tweeting sea weather forecasts",
-    "main": "web.js",
-    "scripts": {
-        "start": "node web.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "engines": {
-        "node": "0.10.26"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/aptitud/WeatherForecast"
-    },
-    "author": "Per Jansson",
-    "license": "BSD-2-Clause",
-    "bugs": {
-        "url": "https://github.com/aptitud/WeatherForecast/issues"
-    },
-    "engine": "node >= 0.10.25",
-    "dependencies": {
-        "express": "^4.4.3",
-        "request": "^2.36.0"
-    }
+  "name": "WeatherForecast",
+  "version": "1.0.0",
+  "description": "Tweeting sea weather forecasts",
+  "main": "web.js",
+  "scripts": {
+    "start": "node web.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "0.10.26"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aptitud/WeatherForecast"
+  },
+  "author": "Per Jansson",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/aptitud/WeatherForecast/issues"
+  },
+  "engine": "node >= 0.10.25",
+  "dependencies": {
+    "cheerio": "^0.17.0",
+    "express": "^4.4.3",
+    "request": "^2.36.0"
+  }
 }
