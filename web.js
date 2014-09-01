@@ -1,19 +1,35 @@
 var express = require('express');
 var fs = require('fs');
-var forecastParser = require(__dirname + '/forecast_parser.js');
+var forecastProvider = require(__dirname + '/forecast_provider.js');
+var areaMapper = require(__dirname + '/area_mapper.js');
 var app = express();
 
-const FLADEN_OCH_DOGGER = "Fladen och Dogger";
-const NORRA_OSTERSJON = "Norra Östersjön";
-
-app.get('/SWF', function (req, res) {
-    forecastParser.parse(function(forecasts) {
-        res.send(forecasts);
+app.get("/SeaWeatherForecasts", function (req, res) {
+    forecastProvider.findAll(function (forecasts) {
+        res.send(createResponse(forecasts));
     });
-});
+})
 
-function createResponse(forecastHeader, forecastText) {
-    return '<p><b>' + forecastHeader + '</b><br/>' + forecastText + '</p>';
+app.get("/SeaWeatherForecast/:area", function (req, res) {
+    var areaKey = req.params.area;
+    var areaName = areaMapper.map(areaKey);
+    if (typeof areaName === 'undefined') {
+        res.send("Oops! Området " + areaKey + " fanns inte prognos för...");
+    } else {
+        forecastProvider.get(areaName, function (forecast) {
+            res.send(createResponse([forecast]));
+        });
+    }
+})
+
+function createResponse(forecasts) {
+    var response = "";
+    for (var i = 0; i < forecasts.length; i++) {
+        var area = forecasts[i].area;
+        var forecast = forecasts[i].forecast;
+        response = response.concat("<p><b>" + area + "</b><br/>" + forecast + "</p>")
+    }
+    return response;
 }
 
 function sendTweet(forecastHeader, forecastText) {
