@@ -1,5 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
+var areaMapper = require(__dirname + '/area_mapper.js');
 
 const FORECAST_PROVIDER_URL = "http://www.smhi.se/vadret/hav-och-kust/sjovader/sjovader_tabell_sv.htm";
 const AREAS = ["Fladen", "Dogger", "Tyska bukten", "Fiskebankarna", "Syd Utsira", "Skagerack", "Kattegatt och Bälten", "Vänern", "Öresund", "Sydvästra och södra Östersjön", "Sydöstra Östersjön", "Mellersta Östersjön", "Norra Östersjön", "Rigabukten", "Finska viken", "Ålands hav", "Skärgårdshavet", "Bottenhavet", "Norra Kvarken och Bottenviken"];
@@ -19,11 +20,11 @@ var findAllForecasts = function (callback) {
     })
 }
 
-var getForecast = function (area, callback) {
+var getForecast = function (areaName, callback) {
     findAllForecasts(function (forecasts) {
         for (var i = 0; i < forecasts.length; i++) {
             var forecast = forecasts[i];
-            if (forecast.area === area) {
+            if (forecast.areaName === areaName) {
                 callback(forecast);
             }
         }
@@ -31,15 +32,17 @@ var getForecast = function (area, callback) {
 }
 
 function createForecastFromText(forecastText) {
-    var area = getAreaFromText(forecastText);
-    var forecast = getForecastFromText(area, forecastText);
+    var areaName = getAreaNameFromText(forecastText);
+    var areaKey = areaMapper.mapForecastNameToKey(areaName);
+    var forecast = getForecastFromText(areaName, forecastText);
     return {
-        area: area,
+        areaKey: areaKey,
+        areaName: areaName,
         forecast: forecast
     };
 }
 
-function getAreaFromText(forecastText) {
+function getAreaNameFromText(forecastText) {
     for (var i = 0; i < AREAS.length; i++) {
         var area = AREAS[i];
         if (forecastText.indexOf(area) > -1) {
@@ -48,8 +51,8 @@ function getAreaFromText(forecastText) {
     }
 }
 
-function getForecastFromText(area, forecastText) {
-    return forecastText.replace(area, '');
+function getForecastFromText(areaName, forecastText) {
+    return forecastText.replace(areaName, '');
 }
 
 module.exports.findAll = findAllForecasts;

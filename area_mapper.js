@@ -47,7 +47,7 @@ var mapForecastKeyToName = function (areaKey) {
     } else if (areaKey === "AlandsHav") {
         return "Ålands hav";
 
-    } else if (areaKey === "Skärgårdshavet") {
+    } else if (areaKey === "Skargardshavet") {
         return "Skärgårdshavet";
 
     } else if (areaKey === "Bottenhavet") {
@@ -59,4 +59,66 @@ var mapForecastKeyToName = function (areaKey) {
     }
 };
 
-module.exports.map = mapForecastKeyToName;
+var mapForecastNameToKey = function (areaName) {
+    if (areaName === "Fladen") {
+        return "Fladen";
+
+    } else if (areaName === "Dogger") {
+        return "Dogger";
+
+    } else if (areaName === "Tyska bukten") {
+        return "TyskaBukten";
+
+    } else if (areaName === "Fiskebankarna") {
+        return "Fiskebankarna";
+
+    } else if (areaName === "Syd Utsira") {
+        return "SydUtsira";
+
+    } else if (areaName === "Skagerack") {
+        return "Skagerack";
+
+    } else if (areaName === "Kattegatt och Bälten") {
+        return "KattegattOchBalten";
+
+    } else if (areaName === "Vänern") {
+        return "Vanern";
+
+    } else if (areaName === "Öresund") {
+        return "Oresund";
+
+    } else if (areaName === "Sydvästra och södra Östersjön") {
+        return "SydvastraOchSodraOstersjon";
+
+    } else if (areaName === "Sydöstra Östersjön") {
+        return "SydostraOstersjon";
+
+    } else if (areaName === "Mellersta Östersjön") {
+        return "MellerstaOstersjön";
+
+    } else if (areaName === "Norra Östersjön") {
+        return "NorraOstersjon";
+
+    } else if (areaName === "Rigabukten") {
+        return "Rigabukten";
+
+    } else if (areaName === "Finska viken") {
+        return "FinskaViken";
+
+    } else if (areaName === "Ålands hav") {
+        return "AlandsHav";
+
+    } else if (areaName === "Skärgårdshavet") {
+        return "Skargardshavet";
+
+    } else if (areaName === "Bottenhavet") {
+        return "Bottenhavet";
+
+    } else if (areaName === "Norra Kvarken och Bottenviken") {
+        return  "NorraKvarkenOchBottenviken";
+
+    }
+};
+
+module.exports.mapForecastKeyToName = mapForecastKeyToName;
+module.exports.mapForecastNameToKey = mapForecastNameToKey;
