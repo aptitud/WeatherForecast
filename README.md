@@ -3,9 +3,9 @@ WeatherForecast
 
 Tweeting sea weather forecasts
 
-The following works on Mac (may also work on Windows, havn't tried)
-1. Install node and npm
-2. Clone this repo
-3. Run "npm install" (command line in source root) to install app dependencies
-4. Run "node web.js" to start app
-5. Browse to http://127.0.0.1:8080/SeaWeatherForecasts or e.g. http://127.0.0.1:8080/SeaWeatherForecasts/NorraOstersjon
+The following works on Mac (may also work on Windows, haven't tried):
+ - Install node and npm
+ - Clone this repo
+ - Run "npm install" (command line in source root) to install app dependencies
+ - Run "node web.js" to start app
+ - Browse to http://127.0.0.1:8080/SeaWeatherForecasts or e.g. http://127.0.0.1:8080/SeaWeatherForecasts/NorraOstersjon
