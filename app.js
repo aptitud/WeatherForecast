@@ -16,13 +16,17 @@ new cronJob('0 0-59 * * * *', function () {
 /**
  * Web api
  */
-app.get("/SeaWeatherForecast", function (req, res) {
+app.get("/", function (req, res) {
+    res.redirect('/Sjovaderprognos');
+})
+
+app.get("/Sjovaderprognos", function (req, res) {
     forecastProvider.findAll(function (forecasts) {
         createAndSendResponse(res, forecasts);
     });
 })
 
-app.get("/SeaWeatherForecast/:area", function (req, res) {
+app.get("/Sjovaderprognos/:area", function (req, res) {
     var areaKey = req.params.area;
     var areaName = areaMapper.mapForecastKeyToName(areaKey);
     if (typeof areaName === 'undefined') {
