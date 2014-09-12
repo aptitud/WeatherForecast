@@ -17,26 +17,32 @@ var mapForecastKeyToName = function (areaKey) {
     } else if (areaKey === "Skagerack") {
         return "Skagerack";
 
-    } else if (areaKey === "KattegattOchBalten") {
-        return "Kattegatt och Bälten";
+    } else if (areaKey === "Kattegatt") {
+        return "Kattegatt";
+
+    } else if (areaKey === "Balten") {
+        return "B&auml;lten";
 
     } else if (areaKey === "Vanern") {
-        return "Vänern";
+        return "V&auml;nern";
 
     } else if (areaKey === "Oresund") {
-        return "Öresund";
+        return "&Ouml;resund";
 
-    } else if (areaKey === "SydvastraOchSodraOstersjon") {
-        return "Sydvästra och södra Östersjön";
+    } else if (areaKey === "SodraOstersjon") {
+        return "S&ouml;dra &Ouml;stersj&ouml;n";
+
+    } else if (areaKey === "SydvastraOstersjon") {
+        return "Sydv&auml;stra &Ouml;stersj&ouml;n";
 
     } else if (areaKey === "SydostraOstersjon") {
-        return "Sydöstra Östersjön";
+        return "Syd&ouml;stra &Ouml;stersj&ouml;n";
 
-    } else if (areaKey === "MellerstaOstersjön") {
-        return "Mellersta Östersjön";
+    } else if (areaKey === "MellerstaOstersjon") {
+        return "Mellersta &Ouml;stersj&ouml;n";
 
     } else if (areaKey === "NorraOstersjon") {
-        return "Norra Östersjön";
+        return "Norra &Ouml;stersj&ouml;n";
 
     } else if (areaKey === "Rigabukten") {
         return "Rigabukten";
@@ -45,16 +51,22 @@ var mapForecastKeyToName = function (areaKey) {
         return "Finska viken";
 
     } else if (areaKey === "AlandsHav") {
-        return "Ålands hav";
+        return "&Aring;lands hav";
 
     } else if (areaKey === "Skargardshavet") {
-        return "Skärgårdshavet";
+        return "Sk&auml;rg&aring;rdshavet";
 
-    } else if (areaKey === "Bottenhavet") {
-        return "Bottenhavet";
+    } else if (areaKey === "SodraBottenhavet") {
+        return "S&ouml;dra Bottenhavet";
 
-    } else if (areaKey === "NorraKvarkenOchBottenviken") {
-        return  "Norra Kvarken och Bottenviken";
+    } else if (areaKey === "NorraBottenhavet") {
+        return "Norra Bottenhavet";
+
+    } else if (areaKey === "NorraKvarken") {
+        return  "Norra Kvarken";
+
+    } else if (areaKey === "Bottenviken") {
+        return  "Bottenviken";
 
     }
 };
@@ -78,25 +90,31 @@ var mapForecastNameToKey = function (areaName) {
     } else if (areaName === "Skagerack") {
         return "Skagerack";
 
-    } else if (areaName === "Kattegatt och Bälten") {
-        return "KattegattOchBalten";
+    } else if (areaName === "Kattegatt") {
+        return "Kattegatt";
 
-    } else if (areaName === "Vänern") {
+    } else if (areaName === "B&auml;lten") {
+        return "Balten";
+
+    } else if (areaName === "V&auml;nern") {
         return "Vanern";
 
-    } else if (areaName === "Öresund") {
+    } else if (areaName === "&Ouml;resund") {
         return "Oresund";
 
-    } else if (areaName === "Sydvästra och södra Östersjön") {
-        return "SydvastraOchSodraOstersjon";
+    } else if (areaName === "S&ouml;dra &Ouml;stersj&ouml;n") {
+        return "SodraOstersjon";
 
-    } else if (areaName === "Sydöstra Östersjön") {
+    } else if (areaName === "Sydv&auml;stra &Ouml;stersj&ouml;n") {
+        return "SydvastraOstersjon";
+
+    } else if (areaName === "Syd&ouml;stra &Ouml;stersj&ouml;n") {
         return "SydostraOstersjon";
 
-    } else if (areaName === "Mellersta Östersjön") {
-        return "MellerstaOstersjön";
+    } else if (areaName === "Mellersta &Ouml;stersj&ouml;n") {
+        return "MellerstaOstersjon";
 
-    } else if (areaName === "Norra Östersjön") {
+    } else if (areaName === "Norra &Ouml;stersj&ouml;n") {
         return "NorraOstersjon";
 
     } else if (areaName === "Rigabukten") {
@@ -105,17 +123,23 @@ var mapForecastNameToKey = function (areaName) {
     } else if (areaName === "Finska viken") {
         return "FinskaViken";
 
-    } else if (areaName === "Ålands hav") {
+    } else if (areaName === "&Aring;lands hav") {
         return "AlandsHav";
 
-    } else if (areaName === "Skärgårdshavet") {
+    } else if (areaName === "Sk&auml;rg&aring;rdshavet") {
         return "Skargardshavet";
 
-    } else if (areaName === "Bottenhavet") {
-        return "Bottenhavet";
+    } else if (areaName === "SodraBottenhavet") {
+        return "S&ouml;dra Bottenhavet";
 
-    } else if (areaName === "Norra Kvarken och Bottenviken") {
-        return  "NorraKvarkenOchBottenviken";
+    } else if (areaName === "NorraBottenhavet") {
+        return "Norra Bottenhavet";
+
+    } else if (areaName === "Norra Kvarken") {
+        return  "NorraKvarken";
+
+    } else if (areaName === "Bottenviken") {
+        return  "Bottenviken";
 
     }
 };
