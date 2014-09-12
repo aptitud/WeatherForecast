@@ -35,13 +35,11 @@ app.get("/SeaWeatherForecast/:area", function (req, res) {
 })
 
 function createResponse(forecasts) {
-    var response = "";
+    var response = "<html><head><title>Sjöväderprognos</title><style>body { background-color: #000033; color: #e5e5f2; font-family: 'Trebuchet MS', Helvetica, sans-serif; font-size: 10px } .forecast { margin-bottom: 20px; padding: 10px; } .area-name { font-size: 5em; font-weight: bold } .forecast-text { font-size: 3.5em; }</style></head><body>";
     for (var i = 0; i < forecasts.length; i++) {
-        var areaName = forecasts[i].areaName;
-        var forecast = forecasts[i].forecast;
-        response = response.concat("<p><b>" + areaName + "</b><br/>" + forecast + "</p>")
+        response = response.concat("<p class='forecast'><span class='area-name'>" + forecasts[i].areaName + "</span><br/><span class='forecast-text'>" + forecasts[i].forecast + "</span>")
     }
-    return response;
+    return response.concat("</body></html>");
 }
 
 function sendTweet(forecastHeader, forecastText) {
