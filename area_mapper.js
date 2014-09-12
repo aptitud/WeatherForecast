@@ -129,11 +129,11 @@ var mapForecastNameToKey = function (areaName) {
     } else if (areaName === "Sk&auml;rg&aring;rdshavet") {
         return "Skargardshavet";
 
-    } else if (areaName === "SodraBottenhavet") {
-        return "S&ouml;dra Bottenhavet";
+    } else if (areaName === "S&ouml;dra Bottenhavet") {
+        return "SodraBottenhavet";
 
-    } else if (areaName === "NorraBottenhavet") {
-        return "Norra Bottenhavet";
+    } else if (areaName === "Norra Bottenhavet") {
+        return "NorraBottenhavet";
 
     } else if (areaName === "Norra Kvarken") {
         return  "NorraKvarken";
