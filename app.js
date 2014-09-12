@@ -62,6 +62,7 @@ function sendTweet(forecastHeader, forecastText) {
     // TODO: Send tweet to correct Twitter account
 }
 
-app.listen(8080)
+var port = Number(process.env.PORT || 8080);
+app.listen(port)
 
 exports = module.exports = app;
