@@ -49,7 +49,7 @@ function createResponse(forecasts, callback) {
     var css = fs.readFileSync("style.css", "utf8");
     var response = "<html><head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'><title>Sjöväderprognos från SMHI</title><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'><link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Amatic+SC'><style>" + css + "</style></head><body>";
     for (var i = 0; i < forecasts.length; i++) {
-        response = response.concat("<p class='forecast'><a href='" + forecasts[i].areaKey + "'><span class='area-name'>" + forecasts[i].areaName + "</span><br/><span class='forecast-text'>\"" + forecasts[i].forecast + "\"</span></a></p>")
+        response = response.concat("<p class='forecast'><a href='/Sjovaderprognos/" + forecasts[i].areaKey + "'><span class='area-name'>" + forecasts[i].areaName + "</span><br/><span class='forecast-text'>\"" + forecasts[i].forecast + "\"</span></a></p>")
     }
     if (forecasts.length <= 1) {
         response = response.concat("<p class='links'><a href='/Sjovaderprognos'>Alla</a>");
