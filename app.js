@@ -2,16 +2,17 @@ var express = require('express');
 var forecastProvider = require(__dirname + '/forecast_provider.js');
 var areaMapper = require(__dirname + '/area_mapper.js');
 var cronJob = require('cron').CronJob;
+var fs = require('fs');
 var app = express();
 
 /**
  * Cron job
  */
-new cronJob('0 0-59 * * * *', function () {
-    forecastProvider.findAll(function (forecasts) {
-        console.log(forecasts);
-    });
-}, null, true);
+/*new cronJob('0 0-59 * * * *', function () {
+ forecastProvider.findAll(function (forecasts) {
+ console.log(forecasts);
+ });
+ }, null, true);*/
 
 /**
  * Web api
@@ -45,9 +46,10 @@ function createAndSendResponse(res, forecasts) {
 }
 
 function createResponse(forecasts, callback) {
-    var response = "<html><head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'><title>Sjöväderprognos från SMHI</title><link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Shadows+Into+Light'><style>body { background: -webkit-linear-gradient(white, #2BBBD8); /* For Safari 5.1 to 6.0 */ background: -o-linear-gradient(white, #2BBBD8); /* For Opera 11.1 to 12.0 */ background: -moz-linear-gradient(white, #2BBBD8); /* For Firefox 3.6 to 15 */ background: linear-gradient(white, #2BBBD8); /* Standard syntax (must be last) */; color: #102E37; font-family: 'Shadows Into Light', serif; font-size: 10px } .forecast { margin-bottom: 20px; padding: 10px; } .forecast a { color: #102E37; text-decoration: none; } .area-name { font-size: 4.5em; font-weight: bold } .forecast-text { font-size: 3.5em; } .links { margin-top: 50px; padding: 10px; border-top: 1px solid lightblue; font-size: 2em} .links a { margin-left: 5px; margin-right: 5px; display: inline-block; } .links a:link { text-decoration: none; color: lightseagreen } .links a:visited { text-decoration: none; color: lightseagreen } .links a:hover { text-decoration: none; color: darkblue } .links a:active { text-decoration: none; color: lightseagreen }</style></head><body>";
+    var css = fs.readFileSync("style.css", "utf8");
+    var response = "<html><head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'><title>Sjöväderprognos från SMHI</title><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'><link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Shadows+Into+Light'><style>" + css + "</style></head><body>";
     for (var i = 0; i < forecasts.length; i++) {
-        response = response.concat("<p class='forecast'><a href='Sjovaderprognos/" + forecasts[i].areaKey + "'><span class='area-name'>" + forecasts[i].areaName + "</span><br/><span class='forecast-text'>\"" + forecasts[i].forecast + "\"</span></a></p>")
+        response = response.concat("<p class='forecast'><a href='" + forecasts[i].areaKey + "'><span class='area-name'>" + forecasts[i].areaName + "</span><br/><span class='forecast-text'>\"" + forecasts[i].forecast + "\"</span></a></p>")
     }
     if (forecasts.length <= 1) {
         response = response.concat("<p class='links'><a href='/Sjovaderprognos'>Alla</a>");
