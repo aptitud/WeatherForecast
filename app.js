@@ -15,7 +15,7 @@ new cronJob('0 0-59 * * * *', function () {
     forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
         if (lastUpdatedTime.isAfter(lastTweetTime)) {
             if (!error) {
-                console.log("Will tweet because last tweet time: " + lastTweetTime + " is older than last updated time: " + lastUpdatedTime);
+                console.log("Will tweet because last tweet time (" + lastTweetTime + " GMT) is older than last updated time (" + lastUpdatedTime + ") GMT.");
                 lastTweetTime = lastUpdatedTime;
                 forecastProvider.findAll(function (forecasts) {
                     for (var i = 0; i < forecasts.length; i++) {
