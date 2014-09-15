@@ -19,9 +19,7 @@ new cronJob('0 0-59 * * * *', function () {
                 forecastProvider.findAll(function (forecasts) {
                     for (var i = 0; i < forecasts.length; i++) {
                         var forecast = forecasts[i];
-                        if (forecast.areaKey === 'NorraOstersjon') {
-                            sendTweet(forecast.areaKey, forecast.forecast);
-                        }
+                        sendTweet(forecast.areaKey, forecast.forecast);
                     }
                 });
             } else {
