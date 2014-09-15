@@ -1,18 +1,37 @@
 var express = require('express');
+var forecastTweeter = require(__dirname + '/forecast_tweeter.js');
 var forecastProvider = require(__dirname + '/forecast_provider.js');
 var areaMapper = require(__dirname + '/area_mapper.js');
 var cronJob = require('cron').CronJob;
 var fs = require('fs');
+var moment = require('moment');
 var app = express();
+var lastTweetTime = moment();
 
 /**
  * Cron job
  */
-/*new cronJob('0 0-59 * * * *', function () {
- forecastProvider.findAll(function (forecasts) {
- console.log(forecasts);
- });
- }, null, true);*/
+new cronJob('0 0-59 * * * *', function () {
+    forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
+        if (lastUpdatedTime.isAfter(lastTweetTime)) {
+            if (!error) {
+                console.log("Will tweet because last tweet time: " + lastTweetTime + " is older than last updated time: " + lastUpdatedTime);
+                forecastProvider.findAll(function (forecasts) {
+                    for (var i = 0; i < forecasts.length; i++) {
+                        var forecast = forecasts[i];
+                        if (forecast.areaKey === 'NorraOstersjon') {
+                            sendTweet(forecast.areaKey, forecast.forecast);
+                        }
+                    }
+                });
+            } else {
+                console.log(error);
+            }
+        } else {
+            console.log("Will not tweet because last tweet time: " + lastTweetTime + " is more recent than last updated time: " + lastUpdatedTime);
+        }
+    });
+}, null, true);
 
 /**
  * Web api
@@ -64,8 +83,8 @@ function createResponse(forecasts, callback) {
     }
 }
 
-function sendTweet(forecastHeader, forecastText) {
-    // TODO: Send tweet to correct Twitter account
+function sendTweet(areaKey, forecast) {
+    forecastTweeter.tweet(areaKey, forecast);
 }
 
 var port = Number(process.env.PORT || 8080);
