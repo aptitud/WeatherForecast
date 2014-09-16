@@ -29,7 +29,8 @@ function parseForecastsFromJS(scrapedForecasts) {
             var forecast = {
                 areaKey: areaKey,
                 areaName: areaName,
-                forecast: forecastText
+                forecast: forecastText,
+                link: 'http://seaweatherforecast.herokuapp.com/Sjovaderprognos/NorraOstersjon'
             };
             forecasts.push(forecast);
         }
