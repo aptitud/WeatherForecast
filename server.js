@@ -6,7 +6,7 @@ var cronJob = require('cron').CronJob;
 var fs = require('fs');
 var moment = require('moment');
 var app = express();
-var lastTweetTime = moment();  //TODO: Use time zone?
+var lastTweetTime = moment();
 
 const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
