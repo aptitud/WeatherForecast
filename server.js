@@ -86,7 +86,7 @@ function sendTweet(areaKey, forecast) {
     forecastTweeter.tweet(areaKey, forecast);
 }
 
-var port = Number(process.env.PORT || 1337);
+var port = Number(process.env.app_port || process.env.PORT || 1337);
 app.listen(port)
 
 exports = module.exports = app;
