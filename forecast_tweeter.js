@@ -32,8 +32,10 @@ var tweetForecast = function (forecast) {
 function createTweetText(forecast) {
     var tweet = forecast.forecast;
     tweet = htmlDecodeTweet(tweet);
-    tweet = truncateTweet(tweet);
-    tweet = addLink(tweet, forecast.link);
+    if (tweet.length > 140) {
+        tweet = truncateTweet(tweet);
+        tweet = addLink(tweet, forecast.link);
+    }
     return  tweet;
 }
 
