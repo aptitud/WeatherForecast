@@ -18,7 +18,7 @@ try {
     new cronJob('*/5 * * * *', function () {
         forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
-                if (true) {
+                if (lastUpdatedTime.isAfter(lastTweetTime)) {
                     log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
                     lastTweetTime = lastUpdatedTime;
                     forecastProvider.findAll(function (forecasts) {
