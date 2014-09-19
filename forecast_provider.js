@@ -30,7 +30,7 @@ function parseForecastsFromJS(scrapedForecasts) {
                 areaKey: areaKey,
                 areaName: areaName,
                 forecast: forecastText,
-                link: 'http://seaweatherforecast.herokuapp.com/Sjovaderprognos/NorraOstersjon'
+                link: 'http://sjovaderprognos.cloudno.de/Sjovaderprognos/NorraOstersjon'
             };
             forecasts.push(forecast);
         }

@@ -7,10 +7,9 @@ entities = new Entities();
 
 var tweetForecast = function (forecast) {
     if (forecast.areaKey === 'NorraOstersjon') {
-        console.log("### Tweeting: " + forecast.areaKey + ": " + forecast.forecast);
-
         if (featureToggle) {
             var tweet = createTweetText(forecast);
+            console.log("### Tweeting: " + tweet);
 
             var T = new Twit({
                 consumer_key: 'wSO0T35btyHkqF7IBt2eoiy2D',
@@ -19,8 +18,12 @@ var tweetForecast = function (forecast) {
                 access_token_secret: '1ovBLfdLl0r0spnngPbJa9oUiYZDUDGcdl9w42jrI5Mho'
             });
 
-            T.post('statuses/update', { status: tweet }, function (err, data, response) {
-                console.log(data)
+            T.post('statuses/update', { status: tweet }, function (error, data, response) {
+                if (!error) {
+                    console.log(data)
+                } else {
+                    console.log(error);
+                }
             })
         }
     }
@@ -40,7 +43,7 @@ function htmlDecodeTweet(tweet) {
 
 function truncateTweet(tweet) {
     if (tweet.length > 118) {
-        return truncate(tweet, 115)
+        return truncate(tweet, 114)
     } else {
         return tweet;
     }

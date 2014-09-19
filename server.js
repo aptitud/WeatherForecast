@@ -18,7 +18,7 @@ try {
         forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                    log("Will tweet!! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT+2.");
+                    log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
                     lastTweetTime = lastUpdatedTime;
                     forecastProvider.findAll(function (forecasts) {
                         for (var i = 0; i < forecasts.length; i++) {
@@ -27,7 +27,7 @@ try {
                         }
                     });
                 } else {
-                    log("Will NOT tweet! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT+2.");
+                    log("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
                 }
             } else {
                 log(error);
