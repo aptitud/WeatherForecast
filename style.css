@@ -1,8 +1,6 @@
 body {
-    background: -webkit-linear-gradient(#2BBBD8, white); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#2BBBD8, white); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#2BBBD8, white); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#2BBBD8, white); /* Standard syntax (must be last) */;
+    background-size: contain;
+    background: #7D7D7D url(http://2.bp.blogspot.com/-JW3xV65V4xA/TnIEl6tBnnI/AAAAAAAAAdk/hhzH2RBOpmI/s1600/baffinpaddler_boats-fog-webb-cove-deer-isle-archipelago_stonington-maine-usa_2.JPG) no-repeat center;
     padding: 10px;
     color: #102E37;
     font-family: 'Amatic SC', serif;
@@ -29,7 +27,7 @@ body {
 }
 
 .forecast a {
-    color: #102E37;
+    color: #e7e7e7;
     text-decoration: none;
 }
 
@@ -45,7 +43,7 @@ body {
 .links {
     margin-top: 50px;
     padding: 10px;
-    border-top: 1px solid lightblue;
+    border-top: 1px solid orange;
     font-size: 2em
 }
 
@@ -57,20 +55,20 @@ body {
 
 .links a:link {
     text-decoration: none;
-    color: lightseagreen
+    color: orange
 }
 
 .links a:visited {
     text-decoration: none;
-    color: lightseagreen
+    color: orange
 }
 
 .links a:hover {
     text-decoration: none;
-    color: darkblue
+    color: #e7e7e7
 }
 
 .links a:active {
     text-decoration: none;
-    color: lightseagreen
+    color: #B3B3B3
 }

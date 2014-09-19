@@ -8,29 +8,36 @@ var moment = require('moment');
 var app = express();
 var lastTweetTime = moment();  //TODO: Use time zone?
 
+const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS";
+
 /**
  * Cron job
  */
-new cronJob('0 0-59 * * * *', function () {
-    forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
-        if (!error) {
-            if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                console.log("Will tweet because last tweet time (" + lastTweetTime + " GMT) is older than last updated time (" + lastUpdatedTime + ") GMT.");
-                lastTweetTime = lastUpdatedTime;
-                forecastProvider.findAll(function (forecasts) {
-                    for (var i = 0; i < forecasts.length; i++) {
-                        var forecast = forecasts[i];
-                        sendTweet(forecast);
-                    }
-                });
+try {
+    new cronJob('*/5 * * * *', function () {
+        forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
+            if (!error) {
+                if (lastUpdatedTime.isAfter(lastTweetTime)) {
+                    log("Will tweet!! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT.");
+                    lastTweetTime = lastUpdatedTime;
+                    forecastProvider.findAll(function (forecasts) {
+                        for (var i = 0; i < forecasts.length; i++) {
+                            var forecast = forecasts[i];
+                            sendTweet(forecast);
+                        }
+                    });
+                } else {
+                    log("Will NOT tweet! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT.");
+                }
             } else {
-                console.log("Will not tweet because last tweet time (" + lastTweetTime + " GMT) is more recent than last updated time (" + lastUpdatedTime + ") GMT.");
+                log(error);
             }
-        } else {
-            console.log(error);
-        }
-    });
-}, null, true);
+        });
+    }, null, true);
+    log("Cron job started, ready to run every 5 minute.");
+} catch (ex) {
+    log("Cron pattern not valid");
+}
 
 /**
  * Web api
@@ -84,6 +91,14 @@ function createResponse(forecasts, callback) {
 
 function sendTweet(areaKey, forecast) {
     forecastTweeter.tweet(areaKey, forecast);
+}
+
+function log(logMessage) {
+    return console.log(formatDate(moment()) + " " + logMessage);
+}
+
+function formatDate(moment) {
+    return moment.format(TIME_FORMAT_PATTERN);
 }
 
 var port = Number(process.env.app_port || process.env.PORT || 1337);
