@@ -62,7 +62,7 @@ var getLastUpdatedTime = function (callback) {
             var day = containerHtml.substring(dateStart + 17, dateStart + 19);
             var hour = containerHtml.substring(timeStart + 4, timeStart + 6);
             var minute = containerHtml.substring(timeStart + 7, timeStart + 9);
-            var lastUpdatedTime = moment({ y: year, M: --month, d: day, h: hour, m: minute, z: +"2:00"});
+            var lastUpdatedTime = moment({ y: year, M: --month, d: day, h: hour, m: minute, z: +"02:00"});
             callback(null, lastUpdatedTime);
         } else {
             callback(error);
