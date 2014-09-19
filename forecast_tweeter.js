@@ -5,10 +5,10 @@ var truncate = require('truncate');
 var featureToggle = true;
 entities = new Entities();
 
-var tweetForecast = function (forecast) {
+var tweetForecast = function (forecast, formattedLastUpdatedTime) {
     if (forecast.areaKey === 'NorraOstersjon') {
         if (featureToggle) {
-            var tweet = createTweetText(forecast);
+            var tweet = createTweetText(forecast, formattedLastUpdatedTime);
             console.log("### Tweeting: " + tweet);
 
             var T = new Twit({
@@ -29,9 +29,10 @@ var tweetForecast = function (forecast) {
     }
 }
 
-function createTweetText(forecast) {
+function createTweetText(forecast, formattedLastUpdatedTime) {
     var tweet = forecast.forecast;
     tweet = htmlDecodeTweet(tweet);
+    tweet = addTime(tweet, formattedLastUpdatedTime);
     if (tweet.length > 140) {
         tweet = truncateTweet(tweet);
         tweet = addLink(tweet, forecast.link);
@@ -41,6 +42,10 @@ function createTweetText(forecast) {
 
 function htmlDecodeTweet(tweet) {
     return entities.decode(tweet);
+}
+
+function addTime(tweet, formattedLastUpdatedTime) {
+    return formattedLastUpdatedTime + ": " + tweet;
 }
 
 function truncateTweet(tweet) {

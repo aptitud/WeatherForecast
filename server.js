@@ -9,6 +9,7 @@ var app = express();
 var lastTweetTime = moment();  //TODO: Use time zone?
 
 const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
+const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 
 /**
  * Cron job
@@ -17,13 +18,13 @@ try {
     new cronJob('*/5 * * * *', function () {
         forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
-                if (lastUpdatedTime.isAfter(lastTweetTime)) {
+                if (true) {
                     log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
                     lastTweetTime = lastUpdatedTime;
                     forecastProvider.findAll(function (forecasts) {
                         for (var i = 0; i < forecasts.length; i++) {
                             var forecast = forecasts[i];
-                            sendTweet(forecast);
+                            sendTweet(forecast, lastUpdatedTime.format(TWEET_TIME_FORMAT_PATTERN));
                         }
                     });
                 } else {
@@ -89,8 +90,8 @@ function createResponse(forecasts, callback) {
     }
 }
 
-function sendTweet(areaKey, forecast) {
-    forecastTweeter.tweet(areaKey, forecast);
+function sendTweet(forecast, lastUpdatedTime) {
+    forecastTweeter.tweet(forecast, lastUpdatedTime);
 }
 
 function log(logMessage) {
