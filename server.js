@@ -8,7 +8,7 @@ var moment = require('moment');
 var app = express();
 var lastTweetTime = moment();  //TODO: Use time zone?
 
-const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS";
+const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 
 /**
  * Cron job
@@ -18,7 +18,7 @@ try {
         forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                    log("Will tweet!! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT.");
+                    log("Will tweet!! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT+2.");
                     lastTweetTime = lastUpdatedTime;
                     forecastProvider.findAll(function (forecasts) {
                         for (var i = 0; i < forecasts.length; i++) {
@@ -27,7 +27,7 @@ try {
                         }
                     });
                 } else {
-                    log("Will NOT tweet! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT.");
+                    log("Will NOT tweet! Last tweet time: " + formatDate(lastTweetTime) + " GMT and Last updated time: " + formatDate(lastUpdatedTime) + " GMT+2.");
                 }
             } else {
                 log(error);
