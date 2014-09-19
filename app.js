@@ -13,8 +13,8 @@ var lastTweetTime = moment();  //TODO: Use time zone?
  */
 new cronJob('0 0-59 * * * *', function () {
     forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
-        if (lastUpdatedTime.isAfter(lastTweetTime)) {
-            if (!error) {
+        if (!error) {
+            if (lastUpdatedTime.isAfter(lastTweetTime)) {
                 console.log("Will tweet because last tweet time (" + lastTweetTime + " GMT) is older than last updated time (" + lastUpdatedTime + ") GMT.");
                 lastTweetTime = lastUpdatedTime;
                 forecastProvider.findAll(function (forecasts) {
@@ -24,10 +24,10 @@ new cronJob('0 0-59 * * * *', function () {
                     }
                 });
             } else {
-                console.log(error);
+                console.log("Will not tweet because last tweet time (" + lastTweetTime + " GMT) is more recent than last updated time (" + lastUpdatedTime + ") GMT.");
             }
         } else {
-            console.log("Will not tweet because last tweet time (" + lastTweetTime + " GMT) is more recent than last updated time (" + lastUpdatedTime + ") GMT.");
+            console.log(error);
         }
     });
 }, null, true);
