@@ -5,42 +5,26 @@ var areaMapper = require(__dirname + '/area_mapper.js');
 
 const FORECAST_PROVIDER_URL = "http://www.smhi.se/weatherSMHI2/sjovader/sjovader_data_sv.js";
 const FORECAST_LAST_UPDATED_URL = "http://www.smhi.se/vadret/hav-och-kust/sjovader/sjovader_tabell_sv.htm";
+const FORECAST_TIME_FORMAT_PATTERN = "HH:mm";
 
 var findAllForecasts = function (callback) {
     request(FORECAST_PROVIDER_URL, function (error, response, scrapedForecasts) {
         if (!error) {
-            callback(parseForecastsFromJS(scrapedForecasts));
+            getLastUpdatedTime(function (error, lastUpdatedTime) {
+                if (!error) {
+                    callback(null, parseForecastsFromJS(scrapedForecasts, lastUpdatedTime));
+                } else {
+                    callback(error);
+                }
+            });
+        } else {
+            callback(error);
         }
     })
 }
 
-function parseForecastsFromJS(scrapedForecasts) {
-    var forecasts = [];
-
-    var scrapedForecastsArray = scrapedForecasts.split("\n").map(function (val) {
-        return val.substring(val.lastIndexOf('="') + 2, val.lastIndexOf('";'));
-    });
-
-    for (var i = 0; i < scrapedForecastsArray.length; i += 2) {
-        var areaName = scrapedForecastsArray[i];
-        if (areaName != '') {
-            var areaKey = areaMapper.mapForecastNameToKey(areaName);
-            var forecastText = scrapedForecastsArray[i + 1];
-            var forecast = {
-                areaKey: areaKey,
-                areaName: areaName,
-                forecast: forecastText,
-                link: 'http://sjovaderprognos.cloudno.de/Sjovaderprognos/NorraOstersjon'
-            };
-            forecasts.push(forecast);
-        }
-    }
-
-    return forecasts;
-}
-
 var getForecast = function (areaName, callback) {
-    findAllForecasts(function (forecasts) {
+    findAllForecasts(function (error, forecasts) {
         for (var i = 0; i < forecasts.length; i++) {
             var forecast = forecasts[i];
             if (forecast.areaName === areaName) {
@@ -69,6 +53,32 @@ var getLastUpdatedTime = function (callback) {
         }
     })
 
+}
+
+function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
+    var forecasts = [];
+
+    var scrapedForecastsArray = scrapedForecasts.split("\n").map(function (val) {
+        return val.substring(val.lastIndexOf('="') + 2, val.lastIndexOf('";'));
+    });
+
+    for (var i = 0; i < scrapedForecastsArray.length; i += 2) {
+        var areaName = scrapedForecastsArray[i];
+        if (areaName != '') {
+            var areaKey = areaMapper.mapForecastNameToKey(areaName);
+            var forecastText = scrapedForecastsArray[i + 1];
+            var forecast = {
+                areaKey: areaKey,
+                areaName: areaName,
+                forecast: forecastText,
+                link: 'http://sjovaderprognos.cloudno.de/Sjovaderprognos/NorraOstersjon',
+                time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)
+            };
+            forecasts.push(forecast);
+        }
+    }
+
+    return forecasts;
 }
 
 module.exports.findAll = findAllForecasts;
