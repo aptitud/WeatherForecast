@@ -16,7 +16,8 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
  */
 try {
     new cronJob('*/20 * * * *', function () {
-        forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
+        console.log("Jaha...");
+        /*forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
                     log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
@@ -33,7 +34,7 @@ try {
             } else {
                 log(error);
             }
-        });
+        });*/
     }, null, true);
     log("Cron job started, ready to run every 20 minutes.");
 } catch (ex) {
