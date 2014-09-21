@@ -15,7 +15,7 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
  * Cron job
  */
 try {
-    new cronJob('*/15 * * * *', function () {
+    new cronJob('*/5 * * * *', function () {
         forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
@@ -35,7 +35,7 @@ try {
             }
         });
     }, null, true);
-    log("Cron job started, ready to run every 15 minutes.");
+    log("Cron job started, ready to run every 5 minutes.");
 } catch (ex) {
     log("Cron pattern not valid");
 }
