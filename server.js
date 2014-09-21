@@ -14,8 +14,8 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 /**
  * Cron job
  */
-try {
-    new cronJob('*/20 * * * *', function () {
+//try {
+//    new cronJob('*/20 * * * *', function () {*/
         console.log("Jaha...");
         /*forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
@@ -34,12 +34,12 @@ try {
             } else {
                 log(error);
             }
-        });*/
+        });
     }, null, true);
     log("Cron job started, ready to run every 20 minutes.");
 } catch (ex) {
     log("Cron pattern not valid");
-}
+}*/
 
 /**
  * Web api
