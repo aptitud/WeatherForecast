@@ -14,10 +14,9 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 /**
  * Cron job
  */
-//try {
-//    new cronJob('*/20 * * * *', function () {*/
-        console.log("Jaha...");
-        /*forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
+try {
+    new cronJob('*/10 * * * *', function () {
+        forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
                     log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
@@ -36,10 +35,10 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
             }
         });
     }, null, true);
-    log("Cron job started, ready to run every 20 minutes.");
+    log("Cron job started, ready to run every 10 minutes.");
 } catch (ex) {
     log("Cron pattern not valid");
-}*/
+}
 
 /**
  * Web api
