@@ -71,7 +71,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
                 areaKey: areaKey,
                 areaName: areaName,
                 forecast: forecastText,
-                link: 'http://sjovaderprognos.cloudno.de/Sjovaderprognos/NorraOstersjon',
+                link: 'http://tiny.cc/NorraOstersjon',
                 time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)
             };
             forecasts.push(forecast);
