@@ -44,7 +44,7 @@ const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 /**
  * Web api
  */
-/*app.get("/", function (req, res) {
+app.get("/", function (req, res) {
     res.redirect('/Sjovaderprognos');
 })
 
@@ -101,7 +101,7 @@ function log(logMessage) {
 
 function formatDate(moment) {
     return moment.format(TIME_FORMAT_PATTERN);
-}*/
+}
 
 var port = Number(process.env.app_port || process.env.PORT || 1337);
 app.listen(port)
