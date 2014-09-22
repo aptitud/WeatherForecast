@@ -7,7 +7,7 @@ The following works on Mac (may also work on Windows, haven't tried it) to run t
 - Install node and npm
 - Clone this repo
 - Run "npm install" (command line in source root) to install app dependencies
-- Run "node app/server.js" to start app
+- Run "node server.js" to start app
 - Browse to http://127.0.0.1:8080/Sjovaderprognos or e.g. http://127.0.0.1:8080/Sjovaderprognos/NorraOstersjon
 
 To deploy to Heroku

@@ -2,9 +2,9 @@
   "name": "WeatherForecast",
   "version": "1.0.0",
   "description": "Tweeting sea weather forecasts",
-  "main": "app/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app/server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
