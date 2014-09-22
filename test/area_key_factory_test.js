@@ -7,7 +7,7 @@ describe('Area key factory', function () {
             assert.equal(areaKeyFactory.createKeyFromName("Finska viken"), "FinskaViken");
         })
         it('should create key from area name with HTML encoded name with Swedish characters Ö and ö', function () {
-            assert.equal(areaKeyFactory.createKeyFromName("Norra &Ouml;stersj&ouml;n"), "NorraOstersjon");
+            assert.equal(areaKeyFactory.createKeyFromName("Syd&ouml;stra &Ouml;stersj&ouml;n"), "SydostraOstersjon");
         })
         it('should create key from area name with HTML encoded name with Swedish characters Ä and ä', function () {
             assert.equal(areaKeyFactory.createKeyFromName("&Auml;n N&auml;"), "AnNa");
