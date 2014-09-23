@@ -9,7 +9,7 @@ var logger = require(__dirname + '/logger.js');
 function startWebApi() {
     app.get("/", function (req, res) {
         res.redirect('/Sjovaderprognos');
-    })
+    });
 
     app.get("/Sjovaderprognos", function (req, res) {
         forecastRepository.findAll(function (error, forecasts) {
@@ -19,7 +19,7 @@ function startWebApi() {
                 createAndSendErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
             }
         });
-    })
+    });
 
     app.get("/Sjovaderprognos/:area", function (req, res) {
         var areaKey = req.params.area;
@@ -37,7 +37,11 @@ function startWebApi() {
                 }
             });
         }
-    })
+    });
+
+    app.use(function (req, res) {
+        res.redirect('/Sjovaderprognos');
+    });
 
     var port = Number(process.env.app_port || process.env.PORT || 1337);
     app.listen(port);
