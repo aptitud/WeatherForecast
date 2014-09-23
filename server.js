@@ -1,6 +1,6 @@
-var forecastTweeter = require(__dirname + '/forecast_tweeter.js');
-var forecastRepository = require(__dirname + '/forecast_repository.js');
-var forecastAreaMapper = require(__dirname + '/forecast_area_mapper.js');
+var forecastTweeter = require(__dirname + '/app/forecast/tweeter.js');
+var forecastRepository = require(__dirname + '/app/forecast/repository.js');
+var forecastAreaMapper = require(__dirname + '/app/forecast/area_mapper.js');
 
 var express = require('express');
 var fs = require('fs');

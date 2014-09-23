@@ -4,7 +4,7 @@ var Entities = require('html-entities').AllHtmlEntities;
 var truncate = require('truncate');
 var moment = require('moment');
 
-var forecastRepository = require(__dirname + '/forecast_repository.js');
+var forecastRepository = require(__dirname + '/repository.js');
 
 const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";

@@ -1,5 +1,5 @@
 var assert = require("assert")
-var forecastAreaMapper = require(__dirname + '/../forecast_area_mapper.js');
+var forecastAreaMapper = require(__dirname + '/../area_mapper.js');
 
 describe('Forecast area mapper', function () {
     describe('#mapForecastKeyToName()', function () {

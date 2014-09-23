@@ -1,4 +1,4 @@
-var forecastAreaKeyFactory = require(__dirname + '/forecast_area_key_factory.js');
+var forecastAreaKeyFactory = require(__dirname + '/area_key_factory.js');
 
 var request = require('request');
 var cheerio = require('cheerio');

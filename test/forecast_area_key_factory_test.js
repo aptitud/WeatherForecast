@@ -1,5 +1,5 @@
 var assert = require("assert")
-var forecastAreaKeyFactory = require(__dirname + '/../forecast_area_key_factory.js');
+var forecastAreaKeyFactory = require(__dirname + '/../area_key_factory.js');
 
 describe('Forecast area key factory', function () {
     describe('#createKeyFromName()', function () {
