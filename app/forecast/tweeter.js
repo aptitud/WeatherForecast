@@ -5,9 +5,9 @@ var truncate = require('truncate');
 var moment = require('moment');
 
 var forecastRepository = require(__dirname + '/repository.js');
+var logger = require(__dirname + '/logger.js');
 
 const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
-const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 
 var featureToggle = true;
 var entities = new Entities();
@@ -19,7 +19,7 @@ var startTweeting = function () {
             forecastRepository.getLastUpdatedTime(function (error, lastUpdatedTime) {
                 if (!error) {
                     if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                        log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
+                        logger.info("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
                         lastTweetTime = lastUpdatedTime;
                         forecastRepository.findAll(function (error, forecasts) {
                             for (var i = 0; i < forecasts.length; i++) {
@@ -28,16 +28,16 @@ var startTweeting = function () {
                             }
                         });
                     } else {
-                        log("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
+                        logger.info("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
                     }
                 } else {
-                    log(error);
+                    logger.error(error);
                 }
             });
         }, null, true);
-        log("Cron job started, ready to run every 10 minutes.");
+        logger.info("Cron job started, ready to run every 10 minutes.");
     } catch (ex) {
-        log("Cron pattern not valid");
+        logger.error("Cron pattern not valid");
     }
 }
 
@@ -45,7 +45,7 @@ function tweetForecast(forecast, formattedLastUpdatedTime) {
     if (forecast.areaKey === 'NorraOstersjon') {
         if (featureToggle) {
             var tweet = createTweetText(forecast, formattedLastUpdatedTime);
-            console.log("### Tweeting: " + tweet);
+            logger.info("### Tweeting: " + tweet);
 
             var T = new Twit({
                 consumer_key: 'wSO0T35btyHkqF7IBt2eoiy2D',
@@ -56,9 +56,9 @@ function tweetForecast(forecast, formattedLastUpdatedTime) {
 
             T.post('statuses/update', { status: tweet }, function (error, data, response) {
                 if (!error) {
-                    console.log(data)
+                    logger.info(data)
                 } else {
-                    console.log(error);
+                    logger.error(error);
                 }
             })
         }
@@ -94,14 +94,6 @@ function truncateTweet(tweet) {
 
 function addLink(tweet, link) {
     return tweet + " " + link;
-}
-
-function log(logMessage) {
-    return console.log(formatDate(moment()) + " " + logMessage);
-}
-
-function formatDate(moment) {
-    return moment.format(TIME_FORMAT_PATTERN);
 }
 
 module.exports.startTweeting = startTweeting;

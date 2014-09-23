@@ -4,6 +4,7 @@ var app = express();
 
 var forecastRepository = require(__dirname + '/repository.js');
 var forecastAreaMapper = require(__dirname + '/area_mapper.js');
+var logger = require(__dirname + '/logger.js');
 
 function startWebApi() {
     app.get("/", function (req, res) {
@@ -20,6 +21,7 @@ function startWebApi() {
         var areaKey = req.params.area;
         var areaName = forecastAreaMapper.mapForecastKeyToName(areaKey);
         if (typeof areaName === 'undefined') {
+            logger.warn("Could not find area name for area key: " + areaKey);
             res.send("Oops! Området " + areaKey + " fanns inte prognos för...");
         } else {
             forecastRepository.get(areaName, function (forecast) {
