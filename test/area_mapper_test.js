@@ -1,7 +1,7 @@
 var assert = require("assert")
-var forecastAreaMapper = require(__dirname + '/../area_mapper.js');
+var forecastAreaMapper = require(__dirname + '/../app/forecast/area_mapper.js');
 
-describe('Forecast area mapper', function () {
+describe('Area mapper', function () {
     describe('#mapForecastKeyToName()', function () {
         it('should map forecast key to name', function () {
             assert.equal(forecastAreaMapper.mapForecastKeyToName("FinskaViken"), "Finska viken");

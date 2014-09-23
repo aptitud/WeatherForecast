@@ -1,7 +1,7 @@
 var assert = require("assert")
-var forecastAreaKeyFactory = require(__dirname + '/../area_key_factory.js');
+var forecastAreaKeyFactory = require(__dirname + '/../app/forecast/area_key_factory.js');
 
-describe('Forecast area key factory', function () {
+describe('Area key factory', function () {
     describe('#createKeyFromName()', function () {
         it('should create key from area name', function () {
             assert.equal(forecastAreaKeyFactory.createKeyFromName("Finska viken"), "FinskaViken");
