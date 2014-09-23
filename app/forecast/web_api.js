@@ -31,7 +31,9 @@ function startWebApi() {
     })
 
     var port = Number(process.env.app_port || process.env.PORT || 1337);
-    app.listen(port)
+    app.listen(port);
+
+    logger.info("Web api started.");
 }
 
 function createAndSendResponse(res, forecasts) {

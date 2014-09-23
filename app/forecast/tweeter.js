@@ -35,7 +35,7 @@ var startTweeting = function () {
                 }
             });
         }, null, true);
-        logger.info("Cron job started, ready to run every 10 minutes.");
+        logger.info("Tweeting started and will run cron job every 10 minutes.");
     } catch (ex) {
         logger.error("Cron pattern not valid");
     }
