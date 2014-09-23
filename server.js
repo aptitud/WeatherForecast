@@ -3,44 +3,10 @@ var forecastRepository = require(__dirname + '/forecast_repository.js');
 var forecastAreaMapper = require(__dirname + '/forecast_area_mapper.js');
 
 var express = require('express');
-var cronJob = require('cron').CronJob;
 var fs = require('fs');
-var moment = require('moment');
 var app = express();
 
-const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
-const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
-
-var lastTweetTime = moment();
-
-/**
- * Cron job
- */
-try {
-    new cronJob('*/10 * * * *', function () {
-        forecastRepository.getLastUpdatedTime(function (error, lastUpdatedTime) {
-            if (!error) {
-                if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                    log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
-                    lastTweetTime = lastUpdatedTime;
-                    forecastRepository.findAll(function (error, forecasts) {
-                        for (var i = 0; i < forecasts.length; i++) {
-                            var forecast = forecasts[i];
-                            sendTweet(forecast, lastUpdatedTime.format(TWEET_TIME_FORMAT_PATTERN));
-                        }
-                    });
-                } else {
-                    log("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
-                }
-            } else {
-                log(error);
-            }
-        });
-    }, null, true);
-    log("Cron job started, ready to run every 10 minutes.");
-} catch (ex) {
-    log("Cron pattern not valid");
-}
+forecastTweeter.startTweeting();
 
 /**
  * Web api
@@ -95,16 +61,4 @@ function createResponse(forecasts, callback) {
     } else {
         callback(response.concat("</p></body></html>"));
     }
-}
-
-function sendTweet(forecast, lastUpdatedTime) {
-    forecastTweeter.tweet(forecast, lastUpdatedTime);
-}
-
-function log(logMessage) {
-    return console.log(formatDate(moment()) + " " + logMessage);
-}
-
-function formatDate(moment) {
-    return moment.format(TIME_FORMAT_PATTERN);
 }

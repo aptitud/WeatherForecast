@@ -1,11 +1,47 @@
+var cronJob = require('cron').CronJob;
 var Twit = require('twit')
 var Entities = require('html-entities').AllHtmlEntities;
 var truncate = require('truncate');
+var moment = require('moment');
+
+var forecastRepository = require(__dirname + '/forecast_repository.js');
+
+const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
+const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 
 var featureToggle = true;
-entities = new Entities();
+var entities = new Entities();
+var lastTweetTime = moment();
 
-var tweetForecast = function (forecast, formattedLastUpdatedTime) {
+var startTweeting = function () {
+    try {
+        new cronJob('*/10 * * * *', function () {
+            forecastRepository.getLastUpdatedTime(function (error, lastUpdatedTime) {
+                if (!error) {
+                    if (lastUpdatedTime.isAfter(lastTweetTime)) {
+                        log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
+                        lastTweetTime = lastUpdatedTime;
+                        forecastRepository.findAll(function (error, forecasts) {
+                            for (var i = 0; i < forecasts.length; i++) {
+                                var forecast = forecasts[i];
+                                tweetForecast(forecast, lastUpdatedTime.format(TWEET_TIME_FORMAT_PATTERN));
+                            }
+                        });
+                    } else {
+                        log("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
+                    }
+                } else {
+                    log(error);
+                }
+            });
+        }, null, true);
+        log("Cron job started, ready to run every 10 minutes.");
+    } catch (ex) {
+        log("Cron pattern not valid");
+    }
+}
+
+function tweetForecast(forecast, formattedLastUpdatedTime) {
     if (forecast.areaKey === 'NorraOstersjon') {
         if (featureToggle) {
             var tweet = createTweetText(forecast, formattedLastUpdatedTime);
@@ -60,4 +96,12 @@ function addLink(tweet, link) {
     return tweet + " " + link;
 }
 
-module.exports.tweet = tweetForecast;
+function log(logMessage) {
+    return console.log(formatDate(moment()) + " " + logMessage);
+}
+
+function formatDate(moment) {
+    return moment.format(TIME_FORMAT_PATTERN);
+}
+
+module.exports.startTweeting = startTweeting;
