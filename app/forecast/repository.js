@@ -26,11 +26,15 @@ var findAllForecasts = function (callback) {
 
 var getForecast = function (areaName, callback) {
     findAllForecasts(function (error, forecasts) {
-        for (var i = 0; i < forecasts.length; i++) {
-            var forecast = forecasts[i];
-            if (forecast.areaName === areaName) {
-                callback(forecast);
+        if (!error) {
+            for (var i = 0; i < forecasts.length; i++) {
+                var forecast = forecasts[i];
+                if (forecast.areaName === areaName) {
+                    callback(null, forecast);
+                }
             }
+        } else {
+            callback(error);
         }
     });
 }

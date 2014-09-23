@@ -13,7 +13,11 @@ function startWebApi() {
 
     app.get("/Sjovaderprognos", function (req, res) {
         forecastRepository.findAll(function (error, forecasts) {
-            createAndSendResponse(res, forecasts);
+            if (!error) {
+                createAndSendResponse(res, forecasts);
+            } else {
+                createAndSendErrorResponse(res, error);
+            }
         });
     })
 
@@ -21,11 +25,16 @@ function startWebApi() {
         var areaKey = req.params.area;
         var areaName = forecastAreaMapper.mapForecastKeyToName(areaKey);
         if (typeof areaName === 'undefined') {
-            logger.warn("Could not find area name for area key: " + areaKey);
-            res.send("Oops! Området " + areaKey + " fanns inte prognos för...");
+            var errorMessage = "Could not find area name for area key: " + areaKey;
+            logger.warn(errorMessage);
+            createAndSendErrorResponse(res, errorMessage);
         } else {
-            forecastRepository.get(areaName, function (forecast) {
-                createAndSendResponse(res, [forecast]);
+            forecastRepository.get(areaName, function (error, forecast) {
+                if (!error) {
+                    createAndSendResponse(res, [forecast]);
+                } else {
+                    createAndSendErrorResponse(res, error);
+                }
             });
         }
     })
@@ -40,6 +49,10 @@ function createAndSendResponse(res, forecasts) {
     createResponse(forecasts, function (response) {
         res.send(response);
     });
+}
+
+function createAndSendErrorResponse(res, error) {
+    res.send("Oops! That didn't go as planned:<br/>" + error);
 }
 
 function createResponse(forecasts, callback) {
