@@ -12,6 +12,5 @@ The following works on Mac (may also work on Windows, haven't tried it) to run t
 - Browse to http://127.0.0.1:8080/Sjovaderprognos or e.g. http://127.0.0.1:8080/Sjovaderprognos/NorraOstersjon
 
 To deploy to Heroku
-- Install Heroku toolbelt
 - Add Heroku git repo as origin (heroku git:remote -a seaweatherforecast)
 - Push to Heroku to deploy (git push heroku master)
