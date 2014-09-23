@@ -76,3 +76,18 @@ body {
     text-decoration: none;
     color: #B3B3B3
 }
+
+.error {
+    color: #e7e7e7;
+}
+
+.error-code {
+    color: #e7e7e7;
+    font-size: 8em;
+    font-weight: bold
+}
+
+.error-message {
+    color: #e7e7e7;
+    font-size: 3.5em;
+}
