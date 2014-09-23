@@ -1,27 +1,29 @@
-var express = require('express');
 var forecastTweeter = require(__dirname + '/forecast_tweeter.js');
-var forecastProvider = require(__dirname + '/forecast_provider.js');
-var areaMapper = require(__dirname + '/area_mapper.js');
+var forecastRepository = require(__dirname + '/forecast_repository.js');
+var forecastAreaMapper = require(__dirname + '/forecast_area_mapper.js');
+
+var express = require('express');
 var cronJob = require('cron').CronJob;
 var fs = require('fs');
 var moment = require('moment');
 var app = express();
-var lastTweetTime = moment();
 
 const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
+
+var lastTweetTime = moment();
 
 /**
  * Cron job
  */
 try {
     new cronJob('*/10 * * * *', function () {
-        forecastProvider.getLastUpdatedTime(function (error, lastUpdatedTime) {
+        forecastRepository.getLastUpdatedTime(function (error, lastUpdatedTime) {
             if (!error) {
                 if (lastUpdatedTime.isAfter(lastTweetTime)) {
                     log("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
                     lastTweetTime = lastUpdatedTime;
-                    forecastProvider.findAll(function (error, forecasts) {
+                    forecastRepository.findAll(function (error, forecasts) {
                         for (var i = 0; i < forecasts.length; i++) {
                             var forecast = forecasts[i];
                             sendTweet(forecast, lastUpdatedTime.format(TWEET_TIME_FORMAT_PATTERN));
@@ -48,22 +50,27 @@ app.get("/", function (req, res) {
 })
 
 app.get("/Sjovaderprognos", function (req, res) {
-    forecastProvider.findAll(function (error, forecasts) {
+    forecastRepository.findAll(function (error, forecasts) {
         createAndSendResponse(res, forecasts);
     });
 })
 
 app.get("/Sjovaderprognos/:area", function (req, res) {
     var areaKey = req.params.area;
-    var areaName = areaMapper.mapForecastKeyToName(areaKey);
+    var areaName = forecastAreaMapper.mapForecastKeyToName(areaKey);
     if (typeof areaName === 'undefined') {
         res.send("Oops! Området " + areaKey + " fanns inte prognos för...");
     } else {
-        forecastProvider.get(areaName, function (forecast) {
+        forecastRepository.get(areaName, function (forecast) {
             createAndSendResponse(res, [forecast]);
         });
     }
 })
+
+var port = Number(process.env.app_port || process.env.PORT || 1337);
+app.listen(port)
+
+exports = module.exports = app;
 
 function createAndSendResponse(res, forecasts) {
     createResponse(forecasts, function (response) {
@@ -79,7 +86,7 @@ function createResponse(forecasts, callback) {
     }
     if (forecasts.length <= 1) {
         response = response.concat("<p class='links'><a href='/Sjovaderprognos'>Alla</a>");
-        forecastProvider.findAll(function (error, forecasts) {
+        forecastRepository.findAll(function (error, forecasts) {
             for (var i = 0; i < forecasts.length; i++) {
                 response = response.concat("<a href='" + forecasts[i].areaKey + "'>" + forecasts[i].areaName + "</a>");
             }
@@ -101,8 +108,3 @@ function log(logMessage) {
 function formatDate(moment) {
     return moment.format(TIME_FORMAT_PATTERN);
 }
-
-var port = Number(process.env.app_port || process.env.PORT || 1337);
-app.listen(port)
-
-exports = module.exports = app;

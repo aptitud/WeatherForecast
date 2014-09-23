@@ -1,7 +1,8 @@
+var forecastAreaKeyFactory = require(__dirname + '/forecast_area_key_factory.js');
+
 var request = require('request');
 var cheerio = require('cheerio');
 var moment = require('moment');
-var areaKeyFactory = require(__dirname + '/area_key_factory.js');
 
 const FORECAST_PROVIDER_URL = "http://www.smhi.se/weatherSMHI2/sjovader/sjovader_data_sv.js";
 const FORECAST_LAST_UPDATED_URL = "http://www.smhi.se/vadret/hav-och-kust/sjovader/sjovader_tabell_sv.htm";
@@ -65,7 +66,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
     for (var i = 0; i < scrapedForecastsArray.length; i += 2) {
         var areaName = scrapedForecastsArray[i];
         if (areaName != '') {
-            var areaKey = areaKeyFactory.createKeyFromName(areaName);
+            var areaKey = forecastAreaKeyFactory.createKeyFromName(areaName);
             var forecastText = scrapedForecastsArray[i + 1];
             var forecast = {
                 areaKey: areaKey,
