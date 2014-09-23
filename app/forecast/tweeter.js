@@ -7,6 +7,7 @@ var moment = require('moment');
 var forecastRepository = require(__dirname + '/repository.js');
 var logger = require(__dirname + '/logger.js');
 
+const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 const TWEET_TIME_FORMAT_PATTERN = "HH:mm";
 
 var featureToggle = true;
@@ -19,7 +20,7 @@ var startTweeting = function () {
             forecastRepository.getLastUpdatedTime(function (error, lastUpdatedTime) {
                 if (!error) {
                     if (lastUpdatedTime.isAfter(lastTweetTime)) {
-                        logger.info("Will tweet, LTT " + formatDate(lastTweetTime) + " < LUT " + formatDate(lastUpdatedTime));
+                        logger.info("Will tweet, LTT " + formatTime(lastTweetTime) + " < LUT " + formatTime(lastUpdatedTime));
                         lastTweetTime = lastUpdatedTime;
                         forecastRepository.findAll(function (error, forecasts) {
                             for (var i = 0; i < forecasts.length; i++) {
@@ -28,7 +29,7 @@ var startTweeting = function () {
                             }
                         });
                     } else {
-                        logger.info("Will NOT tweet, LTT " + formatDate(lastTweetTime) + " >= LUT " + formatDate(lastUpdatedTime));
+                        logger.info("Will NOT tweet, LTT " + formatTime(lastTweetTime) + " >= LUT " + formatTime(lastUpdatedTime));
                     }
                 } else {
                     logger.error(error);
@@ -94,6 +95,10 @@ function truncateTweet(tweet) {
 
 function addLink(tweet, link) {
     return tweet + " " + link;
+}
+
+function formatTime(moment) {
+    return moment.format(TIME_FORMAT_PATTERN);
 }
 
 module.exports.startTweeting = startTweeting;

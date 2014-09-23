@@ -4,18 +4,18 @@ var moment = require('moment');
 const TIME_FORMAT_PATTERN = "YYYY-MM-DD, HH:mm:ss:SSS Z";
 
 var logInfo = function (logMessage) {
-    npmLog.info('Forecast', formatDate(moment()) + " " + logMessage);
+    npmLog.info('Forecast', formatTime(moment()) + " " + logMessage);
 }
 
 var logWarn = function (logMessage) {
-    npmLog.warn('Forecast', formatDate(moment()) + " " + logMessage);
+    npmLog.warn('Forecast', formatTime(moment()) + " " + logMessage);
 }
 
 var logError = function (logMessage) {
-    npmLog.error('Forecast', formatDate(moment()) + " " + logMessage);
+    npmLog.error('Forecast', formatTime(moment()) + " " + logMessage);
 }
 
-function formatDate(moment) {
+function formatTime(moment) {
     return moment.format(TIME_FORMAT_PATTERN);
 }
 
