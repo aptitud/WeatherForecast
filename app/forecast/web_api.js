@@ -14,7 +14,11 @@ function startWebApi() {
     app.get("/Sjovaderprognos", function (req, res) {
         forecastRepository.findAll(function (error, forecasts) {
             if (!error) {
-                createAndSendResponse(res, forecasts);
+                if (requestedJson(req)) {
+                    createAndSendJSONResponse(res, forecasts);
+                } else {
+                    createAndSendHTMLResponse(res, forecasts);
+                }
             } else {
                 createAndSendErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
             }
@@ -31,7 +35,11 @@ function startWebApi() {
         } else {
             forecastRepository.get(areaName, function (error, forecast) {
                 if (!error) {
-                    createAndSendResponse(res, [forecast]);
+                    if (requestedJson(req)) {
+                        createAndSendJSONResponse(res, forecast);
+                    } else {
+                        createAndSendHTMLResponse(res, [forecast]);
+                    }
                 } else {
                     createAndSendErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
                 }
@@ -49,7 +57,15 @@ function startWebApi() {
     logger.info("Web api started.");
 }
 
-function createAndSendResponse(res, forecasts) {
+function requestedJson(req) {
+    return req.query.json !== undefined;
+}
+
+function createAndSendJSONResponse(res, forecasts) {
+    res.json(forecasts);
+}
+
+function createAndSendHTMLResponse(res, forecasts) {
     createResponse(forecasts, function (response) {
         res.status(200).send(response);
     });

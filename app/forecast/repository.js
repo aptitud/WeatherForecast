@@ -77,6 +77,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
                 areaName: areaName,
                 forecast: forecastText,
                 link: 'http://tiny.cc/NorraOstersjon',
+                jsonLink: 'http://tiny.cc/NorraOstersjon?json',
                 time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)
             };
             forecasts.push(forecast);
