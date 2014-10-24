@@ -11,6 +11,16 @@ function startWebApi() {
         res.redirect('/Sjovaderprognos');
     });
 
+    app.get("/Areas", function (req, res) {
+        forecastRepository.findAllAreas(function (error, areas) {
+            if (!error) {
+                res.json(areas);
+            } else {
+                createAndSendHTMLErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
+            }
+        });
+    });
+
     app.get("/Sjovaderprognos", function (req, res) {
         forecastRepository.findAll(function (error, forecasts) {
             if (!error) {
