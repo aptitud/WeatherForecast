@@ -18,7 +18,7 @@ var findAllAreas = function (callback) {
                     areaKey: forecast.areaName,
                     areaName: forecast.areaName,
                     link: 'http://tiny.cc/' + forecast.areaKey,
-                    jsonLink: 'http://tiny.cc/' + forecast.areaKey + '?json'
+                    jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + forecast.areaKey + '?json'
                 }
                 areas.push(area);
             }
@@ -98,7 +98,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
                 areaName: areaName,
                 forecast: forecastText,
                 link: 'http://tiny.cc/' + areaKey,
-                jsonLink: 'http://tiny.cc/' + areaKey + '?json',
+                jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + areaKey + '?json',
                 time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)
             };
             forecasts.push(forecast);
