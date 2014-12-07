@@ -8,6 +8,27 @@ const FORECAST_PROVIDER_URL = "http://www.smhi.se/weatherSMHI2/sjovader/sjovader
 const FORECAST_LAST_UPDATED_URL = "http://www.smhi.se/vadret/hav-och-kust/sjovader/sjovader_tabell_sv.htm";
 const FORECAST_TIME_FORMAT_PATTERN = "HH:mm";
 
+var findAllAreas = function (callback) {
+    findAllForecasts(function (error, forecasts) {
+        if (!error) {
+            var areas = [];
+            for (var i = 0; i < forecasts.length; i++) {
+                var forecast = forecasts[i];
+                var area = {
+                    areaKey: forecast.areaName,
+                    areaName: forecast.areaName,
+                    link: 'http://tiny.cc/' + forecast.areaKey,
+                    jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + forecast.areaKey + '?json'
+                }
+                areas.push(area);
+            }
+            callback(null, areas);
+        } else {
+            callback(error);
+        }
+    });
+}
+
 var findAllForecasts = function (callback) {
     request(FORECAST_PROVIDER_URL, function (error, response, scrapedForecasts) {
         if (!error) {
@@ -76,7 +97,8 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
                 areaKey: areaKey,
                 areaName: areaName,
                 forecast: forecastText,
-                link: 'http://tiny.cc/NorraOstersjon',
+                link: 'http://tiny.cc/' + areaKey,
+                jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + areaKey + '?json',
                 time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)
             };
             forecasts.push(forecast);
@@ -86,6 +108,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
     return forecasts;
 }
 
+module.exports.findAllAreas = findAllAreas;
 module.exports.findAll = findAllForecasts;
 module.exports.get = getForecast;
 module.exports.getLastUpdatedTime = getLastUpdatedTime;

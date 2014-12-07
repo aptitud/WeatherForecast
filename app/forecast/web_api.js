@@ -11,12 +11,22 @@ function startWebApi() {
         res.redirect('/Sjovaderprognos');
     });
 
+    app.get("/Areas", function (req, res) {
+        forecastRepository.findAllAreas(function (error, areas) {
+            if (!error) {
+                res.json(areas);
+            } else {
+                createAndSendHTMLErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
+            }
+        });
+    });
+
     app.get("/Sjovaderprognos", function (req, res) {
         forecastRepository.findAll(function (error, forecasts) {
             if (!error) {
-                createAndSendResponse(res, forecasts);
+                createAndSendResponse(req, res, forecasts);
             } else {
-                createAndSendErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
+                createAndSendHTMLErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
             }
         });
     });
@@ -27,13 +37,13 @@ function startWebApi() {
         if (typeof areaName === 'undefined') {
             var errorMessage = "Forecast for area key " + areaKey + " could not be found";
             logger.warn(errorMessage);
-            createAndSendErrorResponse(res, 404, errorMessage);
+            createAndSendHTMLErrorResponse(res, 404, errorMessage);
         } else {
             forecastRepository.get(areaName, function (error, forecast) {
                 if (!error) {
-                    createAndSendResponse(res, [forecast]);
+                    createAndSendResponse(req, res, [forecast]);
                 } else {
-                    createAndSendErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
+                    createAndSendHTMLErrorResponse(res, 500, "Oops! That didn't go as planned: " + error);
                 }
             });
         }
@@ -49,13 +59,21 @@ function startWebApi() {
     logger.info("Web api started.");
 }
 
-function createAndSendResponse(res, forecasts) {
+function createAndSendResponse(req, res, forecasts) {
+    if (requestedJson(req)) {
+        res.json(forecasts);
+    } else {
+        createAndSendHTMLResponse(res, forecasts);
+    }
+}
+
+function createAndSendHTMLResponse(res, forecasts) {
     createResponse(forecasts, function (response) {
         res.status(200).send(response);
     });
 }
 
-function createAndSendErrorResponse(res, errorCode, errorMessage) {
+function createAndSendHTMLErrorResponse(res, errorCode, errorMessage) {
     var response = "<html>" + createHead() + "<body>";
     response = response.concat("<p class='error'>");
     response = response.concat("<div class='error-code'>" + errorCode + "</div>");
@@ -85,6 +103,10 @@ function createResponse(forecasts, callback) {
 function createHead() {
     var css = fs.readFileSync("app/forecast/style.css", "utf8");
     return "<head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'><title>Sjöväderprognos från SMHI</title><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'><link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Amatic+SC'><style>" + css + "</style></head>";
+}
+
+function requestedJson(req) {
+    return req.query.json !== undefined;
 }
 
 module.exports.startWebApi = startWebApi;
