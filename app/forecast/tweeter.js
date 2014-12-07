@@ -49,10 +49,10 @@ function tweetForecast(forecast, formattedLastUpdatedTime) {
             logger.info("### Tweeting: " + tweet);
 
             var T = new Twit({
-                consumer_key: 'wSO0T35btyHkqF7IBt2eoiy2D',
-                consumer_secret: 'ZssDXAe2jL69suVUcnJ45buiZO6iyi1ZE21CLjClPsvTk9zyv8',
-                access_token: '2811785545-WLAD6kSF0wdfLJ8AC2ZM4IzRsV3Wqgcsmil76Nr',
-                access_token_secret: '1ovBLfdLl0r0spnngPbJa9oUiYZDUDGcdl9w42jrI5Mho'
+                consumer_key: process.env.twitter_consumer_key,
+                consumer_secret: process.env.twitter_consumer_secret,
+                access_token: process.env.twitter_access_token,
+                access_token_secret: process.env.twitter_access_token_secret
             });
 
             T.post('statuses/update', { status: tweet }, function (error, data, response) {
