@@ -55,8 +55,10 @@ var getForecast = function (areaName, callback) {
                 var forecast = forecasts[i];
                 if (forecast.areaName === areaName) {
                     callback(null, forecast);
+                    return;
                 }
             }
+            callback("No area name found for: " + areaName);
         } else {
             callback(error);
         }
@@ -98,8 +100,8 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
             var forecastText = scrapedForecastsArray[i + 1];
             var forecast = {
                 areaKey: areaKey,
-                areaName: areaName,
-                forecast: forecastText,
+                areaName: htmlDecodeText(areaName),
+                forecast: htmlDecodeText(forecastText),
                 link: 'http://tiny.cc/' + areaKey,
                 jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + areaKey + '?json',
                 time: lastUpdatedTime.format(FORECAST_TIME_FORMAT_PATTERN)

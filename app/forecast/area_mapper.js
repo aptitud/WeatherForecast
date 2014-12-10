@@ -21,28 +21,28 @@ var mapForecastKeyToName = function (areaKey) {
         return "Kattegatt";
 
     } else if (areaKey === "Balten") {
-        return "B&auml;lten";
+        return "Bälten";
 
     } else if (areaKey === "Vanern") {
-        return "V&auml;nern";
+        return "Vänern";
 
     } else if (areaKey === "Oresund") {
-        return "&Ouml;resund";
+        return "Öresund";
 
     } else if (areaKey === "SodraOstersjon") {
-        return "S&ouml;dra &Ouml;stersj&ouml;n";
+        return "Södra Östersjön";
 
     } else if (areaKey === "SydvastraOstersjon") {
-        return "Sydv&auml;stra &Ouml;stersj&ouml;n";
+        return "Sydvästra Östersjön";
 
     } else if (areaKey === "SydostraOstersjon") {
-        return "Syd&ouml;stra &Ouml;stersj&ouml;n";
+        return "Sydöstra Östersjön";
 
     } else if (areaKey === "MellerstaOstersjon") {
-        return "Mellersta &Ouml;stersj&ouml;n";
+        return "Mellersta Östersjön";
 
     } else if (areaKey === "NorraOstersjon") {
-        return "Norra &Ouml;stersj&ouml;n";
+        return "Norra Östersjön";
 
     } else if (areaKey === "Rigabukten") {
         return "Rigabukten";
@@ -54,10 +54,10 @@ var mapForecastKeyToName = function (areaKey) {
         return "&Aring;lands hav";
 
     } else if (areaKey === "Skargardshavet") {
-        return "Sk&auml;rg&aring;rdshavet";
+        return "Skärgårdshavet";
 
     } else if (areaKey === "SodraBottenhavet") {
-        return "S&ouml;dra Bottenhavet";
+        return "Södra Bottenhavet";
 
     } else if (areaKey === "NorraBottenhavet") {
         return "Norra Bottenhavet";
