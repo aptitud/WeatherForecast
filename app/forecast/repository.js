@@ -1,8 +1,11 @@
-var forecastAreaKeyFactory = require(__dirname + '/area_key_factory.js');
+var areaKeyFactory = require(__dirname + '/area_key_factory.js');
 
 var request = require('request');
 var cheerio = require('cheerio');
 var moment = require('moment');
+var Entities = require('html-entities').AllHtmlEntities;
+
+var entities = new Entities();
 
 const FORECAST_PROVIDER_URL = "http://www.smhi.se/weatherSMHI2/sjovader/sjovader_data_sv.js";
 const FORECAST_LAST_UPDATED_URL = "http://www.smhi.se/vadret/hav-och-kust/sjovader/sjovader_tabell_sv.htm";
@@ -15,8 +18,8 @@ var findAllAreas = function (callback) {
             for (var i = 0; i < forecasts.length; i++) {
                 var forecast = forecasts[i];
                 var area = {
-                    areaKey: forecast.areaName,
-                    areaName: forecast.areaName,
+                    areaKey: areaKeyFactory.createKeyFromName(htmlDecodeText(forecast.areaName)),
+                    areaName: htmlDecodeText(forecast.areaName),
                     link: 'http://tiny.cc/' + forecast.areaKey,
                     jsonLink: 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos/' + forecast.areaKey + '?json'
                 }
@@ -91,7 +94,7 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
     for (var i = 0; i < scrapedForecastsArray.length; i += 2) {
         var areaName = scrapedForecastsArray[i];
         if (areaName != '') {
-            var areaKey = forecastAreaKeyFactory.createKeyFromName(areaName);
+            var areaKey = areaKeyFactory.createKeyFromName(areaName);
             var forecastText = scrapedForecastsArray[i + 1];
             var forecast = {
                 areaKey: areaKey,
@@ -106,6 +109,10 @@ function parseForecastsFromJS(scrapedForecasts, lastUpdatedTime) {
     }
 
     return forecasts;
+}
+
+function htmlDecodeText(text) {
+    return entities.decode(text);
 }
 
 module.exports.findAllAreas = findAllAreas;
